@@ -11,7 +11,7 @@ let seed = 0
 let snakeIndex = [0]
 let score = 0
 
-for (i = 0; i < 900; i++) {
+for (i = 0; i < 625; i++) {
     createBoard()
 }
 
@@ -26,7 +26,7 @@ function playerOut () {
 }
 
 function createSeed () {
-    seed = Math.ceil(Math.random() * 899)
+    seed = Math.ceil(Math.random() * 624)
     for (let i = 0; i < snakeLength; i++) {
         if (seed == snakeIndex[i]) {
             i = snakeLength
@@ -60,7 +60,7 @@ function createBoard () {
 
 function moveBox () {
     if (direction == 'KeyD') {
-        if ((index + 1) % 30 == 0) {
+        if ((index + 1) % 25 == 0) {
             gameover = true
         } else {
             index++
@@ -68,7 +68,7 @@ function moveBox () {
             snakeFunction()
         }
     } if (direction == 'KeyA') {
-        if (index % 30 == 0) {
+        if (index % 25 == 0) {
             gameover = true
         } else {
             index--
@@ -76,18 +76,18 @@ function moveBox () {
             snakeFunction()
         }
     } if (direction == 'KeyW') {
-        if (index - 30 < 0) {
+        if (index - 25 < 0) {
             gameover = true
         } else {
-            index -= 30
+            index -= 25
             checkSeed()
             snakeFunction()
         }
     } if (direction == 'KeyS') {
-        if (index + 30 > 899) {
+        if (index + 25 > 624) {
             gameover = true
         } else {
-            index += 30
+            index += 25
             checkSeed()
             snakeFunction()
         }

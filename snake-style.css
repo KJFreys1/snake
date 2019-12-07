@@ -11,8 +11,8 @@ body {
 #game-board {
     background-color: rgb(90, 90, 90);
     border: 3px solid rgb(175, 255, 175);
-    width: 570px;
-    height: 570px;
+    width: 500px;
+    height: 500px;
     padding: 3px;
     display: flex;
     flex-wrap: wrap;
@@ -23,7 +23,7 @@ body {
 
 .box {
     background-color: black;
-    height: 15px;
-    width: 15px;
+    height: 16px;
+    width: 16px;
     margin: 2px;
 }
