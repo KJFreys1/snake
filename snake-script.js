@@ -1,12 +1,14 @@
 const gameBoard = document.querySelector('#game-board')
 
+let justScored = false
+let gameover = false
 let boxes = []
 let snakeLength = 1
 let snakeBoxes = []
 let index = 0
 let direction = ''
 let seed = 0
-let snakeIndex = []
+let snakeIndex = [0]
 let score = 0
 
 for (i = 0; i < 900; i++) {
@@ -18,6 +20,10 @@ snakeBoxes[0].style.backgroundColor = 'white'
 
 createSeed()
 moveBox()
+
+function playerOut () {
+    alert('Oops!')
+}
 
 function createSeed () {
     seed = Math.ceil(Math.random() * 899)
@@ -32,11 +38,14 @@ function createSeed () {
 
 function checkSeed () {
     if (index == seed) {
-        snakeLength++
-        snakeBoxes.push(boxes[index])
+        snakeBoxes.push(boxes[snakeIndex[snakeLength-1]])
         snakeIndex.push(index)
+        snakeLength++
         score++
+        justScored = true
         console.log(score)
+        console.log(snakeIndex)
+        console.log(snakeBoxes)
         changeDefault(boxes[seed])
         createSeed()
     }
@@ -52,7 +61,7 @@ function createBoard () {
 function moveBox () {
     if (direction == 'KeyD') {
         if ((index + 1) % 30 == 0) {
-            console.log('can"t go right')
+            gameover = true
         } else {
             index++
             checkSeed()
@@ -60,7 +69,7 @@ function moveBox () {
         }
     } if (direction == 'KeyA') {
         if (index % 30 == 0) {
-            console.log('can"t go left')
+            gameover = true
         } else {
             index--
             checkSeed()
@@ -68,7 +77,7 @@ function moveBox () {
         }
     } if (direction == 'KeyW') {
         if (index - 30 < 0) {
-            console.log("can't go up")
+            gameover = true
         } else {
             index -= 30
             checkSeed()
@@ -76,23 +85,41 @@ function moveBox () {
         }
     } if (direction == 'KeyS') {
         if (index + 30 > 899) {
-            console.log("can't go down")
+            gameover = true
         } else {
             index += 30
             checkSeed()
             snakeFunction()
         }
     }
-    snakeBoxes[snakeLength - 1].style.backgroundColor = 'white'
-    setTimeout(moveBox, 70)
+    if (!justScored) {
+        for (let j = snakeLength; j > 0; j--) {
+            if (snakeIndex[j - 2] == index) {
+                j = 0
+                gameover = true
+            }
+        }
+    } else {
+        justScored = false
+    }
+    if (gameover) {
+        playerOut()
+    } else {
+        snakeBoxes[snakeLength - 1].style.backgroundColor = 'white'
+        setTimeout(moveBox, 70)
+    }
 }
 
 function snakeFunction () {
     snakeBoxes.push(boxes[index])
-    snakeIndex.push(index)
     changeDefault(snakeBoxes[0])
     snakeBoxes.shift()
-    snakeIndex.shift()
+    if (!justScored) {
+        snakeIndex.push(index)
+        snakeIndex.shift()
+    }
+    console.log(snakeIndex)
+    console.log(snakeBoxes)
 }
 
 function changeDefault (blackBox) {
