@@ -10,6 +10,9 @@ for (i = 0; i < 900; i++) {
     createBoard()
 }
 
+snakeBoxes.push(boxes[0])
+snakeBoxes[0].style.backgroundColor = 'white'
+
 moveBox()
 
 function createBoard () {
@@ -19,32 +22,52 @@ function createBoard () {
     boxes.push(newBox)
 }
 
-boxes[0].style.backgroundColor = 'white'
-
 function moveBox () {
     if (direction == 'KeyD') {
         if ((index + 1) % 30 == 0) {
             console.log('can"t go right')
-        } else index++
+        } else {
+            index++
+            snakeFunction()
+        }
     } if (direction == 'KeyA') {
         if (index % 30 == 0) {
             console.log('can"t go left')
-        } else index--
+        } else {
+            index--
+            snakeFunction()
+        }
     } if (direction == 'KeyW') {
         if (index - 30 < 0) {
             console.log("can't go up")
         } else {
             index -= 30
+            snakeFunction()
         }
     } if (direction == 'KeyS') {
         if (index + 30 > 899) {
             console.log("can't go down")
         } else {
             index += 30
+            snakeLength++
+            snakeBoxes.push(boxes[index])
+            snakeFunction()
         }
     }
-    boxes[index].style.backgroundColor = 'white'
+    snakeBoxes[snakeLength - 1].style.backgroundColor = 'white'
     setTimeout(moveBox, 70)
+}
+
+function snakeFunction () {
+    snakeBoxes.push(boxes[index])
+    changeDefault(snakeBoxes[0])
+    console.log(snakeBoxes)
+    snakeBoxes.shift()
+    console.log(snakeBoxes)
+}
+
+function changeDefault (blackBox) {
+    blackBox.style.backgroundColor = 'black'
 }
 
 document.addEventListener('keydown', evt => {
